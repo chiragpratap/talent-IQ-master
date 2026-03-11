@@ -30,6 +30,7 @@ app.get("/health", (req, res) => {
 });
 
 // make our app ready for deployment
+ // make our app ready for deployment
 if (ENV.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname, "../frontend/dist")));
 
@@ -38,10 +39,16 @@ if (ENV.NODE_ENV === "production") {
   });
 }
 
+const PORT = process.env.PORT || 3000;
+
 const startServer = async () => {
   try {
     await connectDB();
-    app.listen(ENV.PORT, () => console.log("Server is running on port:", ENV.PORT));
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port: ${PORT}`);
+    });
+
   } catch (error) {
     console.error("💥 Error starting the server", error);
   }
